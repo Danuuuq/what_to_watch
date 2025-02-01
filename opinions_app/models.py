@@ -11,3 +11,18 @@ class Opinion(db.Model):
     timestamp = db.Column(db.DateTime, index=True,
                           default=datetime.now(timezone.utc))
     added_by = db.Column(db.String(64))
+
+    def from_dict(self, data):
+        for field in ['title', 'text', 'source', 'added_by']:
+            if field in data:
+                setattr(self, field, data[field])
+
+    def to_dict(self):
+        return dict(
+            id=self.id,
+            title=self.title,
+            text=self.text,
+            source=self.source,
+            timestamp=self.timestamp,
+            added_by=self.added_by
+        )
